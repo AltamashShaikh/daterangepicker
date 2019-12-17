@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="dist/daterangepicker.css">
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-debug.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="dist/daterangepicker.js"></script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+        Date:    <input type="text" class="">
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var month = (new Date).getMonth() + 1;
+    var date = (new Date).getDate();
+    var period = 'week';
+    $("input").daterangepicker({
+        minDate: '2017/01/01',
+        maxDate: (new Date).getFullYear() + "/" + month + "/" + date,
+        startDate: '2019/12/08' + (period == 'month' ? '/01' : ''),
+        endDate: '2019/12/11' + (period == 'month' ? '/31' : ''),
+        orientation: 'right',
+        period: period,
+        periods: ['day', 'week', 'month'],
+        showISOWeekNumbers: true,
+        showWeek: true,
+        expanded: true,
+        firstDayOfWeek: 0,
+        ranges: {
+            day: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()]
+            },
+            week: {
+                'This week': [moment().day(0), moment().day(6)],
+                'Last 1 week': [moment().subtract(1, 'weeks').day(0), moment().subtract(1, 'weeks').day(6)],
+                'Last 4 weeks': [moment().subtract(4, 'weeks').day(0), moment().subtract(1, 'weeks').day(6)]
+            },
+            month: {
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                'Last 3 Months': [moment().subtract(3, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                'Last Year': [moment().subtract(12, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }
+    }, function (startDate, endDate, period) {
+        $(this).val(startDate.format('L') + ' – ' + endDate.format('L'))
+    });
+</script>
